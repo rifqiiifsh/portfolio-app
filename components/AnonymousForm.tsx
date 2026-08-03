@@ -33,14 +33,17 @@ export default function AnonymousForm() {
       const currentMsg = message;
       setMessage("");
 
-      // 2. TRIGGER NOTIFIKASI WHATSAPP
+      // 2. TRIGGER NOTIFIKASI WHATSAPP KE API NEXT.JS
       fetch("/api/send-wa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messageContent: currentMsg }),
-      }).catch((err) => console.error("Error trigger WA:", err));
+      })
+        .then((res) => res.json())
+        .then((data) => console.log("Hasil kirim WA:", data))
+        .catch((err) => console.error("Error trigger WA:", err));
 
-      setTimeout(() => setSent(false), 4000); // Reset status sukses setelah 4 detik
+      setTimeout(() => setSent(false), 4000);
     }
   };
 
