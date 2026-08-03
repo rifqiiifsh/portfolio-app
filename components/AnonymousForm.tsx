@@ -30,25 +30,15 @@ export default function AnonymousForm() {
       alert("Gagal mengirim pesan: " + error.message);
     } else {
       setSent(true);
-      const currentMessage = message; // Simpan teks untuk dikirim ke notif
+      const currentMsg = message;
       setMessage("");
 
-      // 2. SINKRONISASI FASE 4: Trigger Push Notification ke HP via OneSignal
-      fetch("https://onesignal.com/api/v1/notifications", {
+      // 2. TRIGGER NOTIFIKASI WHATSAPP
+      fetch("/api/send-wa", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // Pastikan nanti ganti ini dengan REST API Key dari OneSignal Dashboard
-          "Authorization": "Basic GANTI_DENGAN_REST_API_KEY_ONESIGNAL_LU" 
-        },
-        body: JSON.stringify({
-          app_id: "GANTI_DENGAN_ONESIGNAL_APP_ID_LU", // Ganti dengan App ID OneSignal lu
-          included_segments: ["All"], 
-          headings: { en: "💬 Pesan Anonim Baru!" },
-          contents: { en: currentMessage },
-          url: "http://localhost:3000/admin" // Pas production ganti ke domain Vercel lu
-        })
-      }).catch((err) => console.log("Push Notification Error:", err));
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messageContent: currentMsg }),
+      }).catch((err) => console.error("Error trigger WA:", err));
 
       setTimeout(() => setSent(false), 4000); // Reset status sukses setelah 4 detik
     }
