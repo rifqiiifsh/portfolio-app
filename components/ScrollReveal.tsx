@@ -20,30 +20,27 @@ export default function ScrollReveal({ children, delay = 0, className = "" }: Sc
           observer.unobserve(entry.target);
         }
       },
-      {
-        threshold: 0.1,
-        rootMargin: "50px",
-      }
+      { threshold: 0.1, rootMargin: "0px" }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
+    if (ref.current) observer.observe(ref.current);
+    return () => { if (ref.current) observer.unobserve(ref.current); };
   }, []);
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-1000 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      style={{
+        transitionDuration: "1200ms",
+        transitionTimingFunction: "cubic-bezier(0.25, 0.8, 0.25, 1)",
+        transitionDelay: `${delay}ms`,
+        transformStyle: "preserve-3d",
+      }}
+      className={`transition-all ${
+        isVisible
+          ? "opacity-100 translate-y-0 rotate-x-0 rotate-y-0 scale-100"
+          : "opacity-0 translate-y-24 rotate-x-12 rotate-y-12 scale-95"
       } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>

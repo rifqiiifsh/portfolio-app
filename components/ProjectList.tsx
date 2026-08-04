@@ -2,17 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { ExternalLink, Code2, FolderOpen } from "lucide-react";
+import { MoveRight } from "lucide-react";
 
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  image_url: string;
-  project_url?: string;
-  github_url?: string;
-  tags: string[];
-}
+interface Project { id: string; title: string; description: string; image_url: string; project_url?: string; github_url?: string; tags: string[]; }
 
 export default function ProjectList() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -20,132 +12,66 @@ export default function ProjectList() {
 
   useEffect(() => {
     async function fetchProjects() {
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (!error && data) {
-        setProjects(data);
-      }
+      const { data } = await supabase.from("projects").select("*").order("created_at", { ascending: false });
+      if (data) setProjects(data);
       setLoading(false);
     }
-
     fetchProjects();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="rounded-3xl overflow-hidden liquid-glass animate-pulse border border-[#d99153]/20">
-            <div className="w-full h-56 bg-[#2d160b]/40" />
-            <div className="p-6 space-y-4">
-              <div className="h-6 bg-[#2d160b]/60 rounded-lg w-2/3" />
-              <div className="h-4 bg-[#2d160b]/60 rounded-lg w-full" />
-              <div className="h-4 bg-[#2d160b]/60 rounded-lg w-4/5" />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if (projects.length === 0) {
-    return (
-      <div className="liquid-glass flex flex-col items-center gap-4 text-center py-20 px-8 rounded-3xl border-2 border-dashed border-[#d99153]/30">
-        <div className="w-20 h-20 rounded-full bg-[#d99153]/10 flex items-center justify-center animate-pulse">
-          <FolderOpen className="w-10 h-10 text-[#d99153]" />
-        </div>
-        <p className="text-2xl font-bold text-[#fbe6d4]">Database Kosong</p>
-        <p className="text-base text-[#a3836b] max-w-md">
-          Belum ada portofolio yang di-upload. Tunggu update karya terbaik selanjutnya via Dashboard Admin.
-        </p>
-      </div>
-    );
-  }
+  if (loading) return <div className="text-2xl font-black animate-pulse bg-white p-6 border-4 border-black shadow-[6px_6px_0px_0px_#000]">LOADING PROJECTS...</div>;
+  if (projects.length === 0) return <div className="bg-white border-4 border-black p-10 shadow-[8px_8px_0px_0px_#000] font-black text-2xl uppercase">No projects yet.</div>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {projects.map((item) => (
-        <div
-          key={item.id}
-          className="group liquid-glass rounded-3xl overflow-hidden hover:-translate-y-3 hover:shadow-[0_30px_60px_rgba(217,145,83,0.2)] transition-all duration-500 perspective-[1000px]"
-        >
-          {item.image_url && (
-            <div className="relative overflow-hidden h-60">
-              {/* Overlay Gradient Brown */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0a0503] opacity-60 z-10" />
-              <img
-                src={item.image_url}
-                alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-110 group-hover:rotate-2 transition-transform duration-700"
-              />
-
-              {item.tags?.[0] && (
-                <span className="absolute top-4 left-4 z-20 text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-xl bg-[#0a0503]/80 backdrop-blur-md border border-[#d99153]/50 text-[#d99153] shadow-lg">
-                  {item.tags[0]}
-                </span>
-              )}
-
-              {/* Tombol Aksi Liquid Glass Hover */}
-              {(item.project_url || item.github_url) && (
-                <div className="absolute inset-0 z-30 bg-[#0a0503]/20 group-hover:bg-[#0a0503]/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-4 transition-all duration-500 backdrop-blur-sm">
-                  {item.project_url && (
-                    <a
-                      href={item.project_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="w-14 h-14 rounded-2xl liquid-glass flex items-center justify-center text-[#fbe6d4] hover:text-[#0a0503] hover:bg-[#d99153] hover:scale-110 transition-all duration-300"
-                    >
-                      <ExternalLink className="w-6 h-6" />
-                    </a>
-                  )}
-                  {item.github_url && (
-                    <a
-                      href={item.github_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="w-14 h-14 rounded-2xl liquid-glass flex items-center justify-center text-[#fbe6d4] hover:text-[#0a0503] hover:bg-[#d99153] hover:scale-110 transition-all duration-300"
-                    >
-                      <Code2 className="w-6 h-6" />
-                    </a>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          <div className="p-8 space-y-4">
-            <h3 className="text-2xl font-bold text-[#fbe6d4] group-hover:text-[#d99153] transition-colors">
-              {item.title}
-            </h3>
+    <div className="grid grid-cols-1 gap-16">
+      {projects.map((item, idx) => (
+        <div key={item.id} className="relative group perspective-[1000px]">
+          
+          {/* Card Layout like a huge folder */}
+          <div className="bg-black text-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-8 sm:p-12 flex flex-col md:flex-row gap-10 transform-style-3d hover:rotate-x-2 transition-transform duration-500 relative">
             
-            <div className="flex flex-wrap gap-2">
-              {item.tags?.slice(1).map((tag, idx) => (
-                <span key={idx} className="text-xs font-semibold px-2 py-1 bg-[#d99153]/10 text-[#d99153] rounded-lg border border-[#d99153]/20">
-                  {tag}
-                </span>
-              ))}
+            {/* Folder Tab Faux */}
+            <div className="absolute -top-10 left-0 bg-yellow-400 text-black border-4 border-b-0 border-black px-6 py-2 font-black text-xl uppercase shadow-[8px_0px_0px_0px_#000]">
+              PROJECT 0{idx + 1}
             </div>
 
-            <p className="text-base text-[#a3836b] leading-relaxed line-clamp-3">
-              {item.description}
-            </p>
+            {/* Left: Text & LIQUID BUTTONS */}
+            <div className="flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-4xl sm:text-6xl font-black uppercase mb-4 text-white drop-shadow-[4px_4px_0px_rgba(255,255,0,1)]">{item.title}</h3>
+                <p className="font-mono text-gray-300 text-lg leading-relaxed mb-6">{item.description}</p>
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {item.tags?.map((tag, i) => (
+                    <span key={i} className="px-3 py-1 bg-transparent border-2 border-white text-white font-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-            {/* Mobile Actions */}
-            <div className="flex items-center gap-6 pt-4 text-sm md:hidden">
-              {item.project_url && (
-                <a href={item.project_url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[#d99153] font-bold">
-                  <ExternalLink className="w-4 h-4" /> Preview Web
-                </a>
-              )}
-              {item.github_url && (
-                <a href={item.github_url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[#a3836b] hover:text-[#fbe6d4] font-bold">
-                  <Code2 className="w-4 h-4" /> Source Code
-                </a>
-              )}
+              {/* Liquid Glass Buttons Action */}
+              <div className="flex gap-4">
+                {item.project_url && (
+                  <a href={item.project_url} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-white/50 bg-white/20 backdrop-blur-lg shadow-[4px_4px_0px_0px_rgba(255,255,255,0.8),inset_0_0_10px_rgba(255,255,255,0.4)] font-black uppercase text-white hover:bg-white/40 transition-all">
+                    VIEW PROJECT <MoveRight className="w-5 h-5" />
+                  </a>
+                )}
+                {item.github_url && (
+                  <a href={item.github_url} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-white/50 bg-white/20 backdrop-blur-lg shadow-[4px_4px_0px_0px_rgba(255,255,255,0.8),inset_0_0_10px_rgba(255,255,255,0.4)] font-black uppercase text-white hover:bg-white/40 transition-all">
+                    SOURCE
+                  </a>
+                )}
+              </div>
             </div>
+
+            {/* Right: Image */}
+            {item.image_url && (
+              <div className="w-full md:w-1/2">
+                <div className="border-4 border-white bg-gray-200 h-64 sm:h-full relative overflow-hidden group-hover:shadow-[8px_8px_0px_0px_rgba(255,255,0,1)] transition-all">
+                  <img src={item.image_url} alt={item.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ))}
