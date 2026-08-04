@@ -10,16 +10,10 @@ import {
   LogOut,
   Sparkles,
   Inbox,
-  Send,
   Lock,
   CheckCircle2,
   Clock,
-  ExternalLink,
-  ShieldAlert,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
 interface Message {
   id: string;
@@ -53,7 +47,7 @@ export default function AdminDashboard() {
   const [githubUrl, setGithubUrl] = useState("");
   const [tags, setTags] = useState("");
 
-  const ADMIN_PASS = "admin123"; // Ganti password admin lu di sini
+  const ADMIN_PASS = "354313"; // Ganti password admin lu di sini
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -144,30 +138,38 @@ export default function AdminDashboard() {
   // Halaman Login Admin jika belum authenticated
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 selection:bg-purple-500 selection:text-white">
-        <div className="fixed -top-24 -left-24 w-72 h-72 bg-purple-600/20 rounded-full blur-[120px] pointer-events-none" />
-        <div className="relative w-full max-w-md bg-slate-900/60 backdrop-blur-xl border border-slate-800 p-8 rounded-3xl shadow-2xl space-y-6">
+      <div className="min-h-screen bg-[#150E08] flex items-center justify-center p-4 selection:bg-[#E8B368] selection:text-[#1B120B] relative overflow-hidden">
+        <div className="pointer-events-none fixed -top-24 -left-24 w-72 h-72 bg-[#C9773D]/15 rounded-full blur-[120px]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 opacity-20 [mask-image:linear-gradient(to_top,black,transparent)]">
+          <div
+            className="retro-grid absolute inset-0"
+            style={{ transform: "perspective(500px) rotateX(60deg)" }}
+          />
+        </div>
+
+        <div className="relative w-full max-w-md glass-card p-8 rounded-3xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] space-y-6">
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-purple-500/30">
-              <Lock className="w-6 h-6 text-white" />
+            <div className="w-12 h-12 bg-gradient-to-br from-[#E8B368] to-[#C9773D] rounded-2xl flex items-center justify-center mx-auto shadow-[0_4px_0_0_#7A4A22]">
+              <Lock className="w-6 h-6 text-[#1B120B]" />
             </div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Admin Portal</h2>
-            <p className="text-xs text-slate-400">Masukkan kata sandi rahasia untuk masuk dashboard</p>
+            <h2 className="text-2xl font-bold text-[#F3E4D2] tracking-tight font-display">
+              Admin Portal
+            </h2>
+            <p className="text-xs text-[#B99A7C]">
+              Masukkan kata sandi rahasia untuk masuk dashboard
+            </p>
           </div>
           <form onSubmit={handleLogin} className="space-y-4">
-            <Input
+            <input
               type="password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-slate-950/80 border-slate-800 text-white text-center rounded-xl focus:ring-2 focus:ring-purple-500"
+              className="w-full text-center rounded-xl px-4 py-2.5 text-sm text-[#F3E4D2] placeholder:text-[#8A6F55] bg-[#1B120B]/60 border border-[#E8B368]/15 focus:outline-none focus:ring-2 focus:ring-[#E8B368]/50 focus:border-[#E8B368]/40 transition-all"
             />
-            <Button
-              type="submit"
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-2.5 rounded-xl shadow-lg shadow-purple-500/25 transition-all"
-            >
+            <button type="submit" className="liquid-btn-primary w-full justify-center py-2.5">
               Buka Control Panel
-            </Button>
+            </button>
           </form>
         </div>
       </div>
@@ -175,69 +177,76 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-4 sm:p-8 max-w-6xl mx-auto space-y-8 selection:bg-purple-500 selection:text-white">
+    <div className="min-h-screen bg-[#150E08] text-[#F3E4D2] p-4 sm:p-8 max-w-6xl mx-auto space-y-8 selection:bg-[#E8B368] selection:text-[#1B120B]">
       {/* Background Ambient */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-purple-600/10 blur-[140px] pointer-events-none -z-10" />
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-[#C9773D]/10 blur-[140px] pointer-events-none -z-10" />
 
       {/* HEADER BAR */}
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/40 border border-slate-800 p-6 rounded-3xl backdrop-blur-md">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-card p-6 rounded-3xl">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold shadow-md shadow-purple-500/20">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#E8B368] to-[#C9773D] flex items-center justify-center text-[#1B120B] font-bold shadow-[0_3px_0_0_#7A4A22]">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">Dashboard Control Panel</h1>
-            <p className="text-xs text-slate-400">Notifikasi WA Aktif • Real-time Sync</p>
+            <h1 className="text-xl font-bold text-[#F3E4D2] font-display">
+              Dashboard Control Panel
+            </h1>
+            <p className="text-xs text-[#B99A7C]">Notifikasi WA Aktif &middot; Real-time Sync</p>
           </div>
         </div>
-        <Button
+        <button
           onClick={() => setAuthenticated(false)}
-          variant="outline"
-          className="border-slate-800 text-slate-300 hover:bg-slate-800/80 rounded-xl"
+          className="liquid-btn-outline"
         >
-          <LogOut className="w-4 h-4 mr-2" /> Keluar
-        </Button>
+          <LogOut className="w-4 h-4" /> Keluar
+        </button>
       </header>
 
       {/* STATS OVERVIEW BAR */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-            <MessageSquare className="w-6 h-6 text-purple-400" />
+        <div className="p-5 glass-card rounded-2xl flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-[#E8B368]/10 border border-[#E8B368]/20 flex items-center justify-center">
+            <MessageSquare className="w-6 h-6 text-[#E8B368]" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Total Pesan Anonim</p>
-            <p className="text-2xl font-bold text-white">{messages.length}</p>
+            <p className="text-xs text-[#B99A7C] uppercase tracking-wider font-medium">
+              Total Pesan Anonim
+            </p>
+            <p className="text-2xl font-bold text-[#F3E4D2]">{messages.length}</p>
           </div>
         </div>
-        <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center">
-            <FolderKanban className="w-6 h-6 text-pink-400" />
+        <div className="p-5 glass-card rounded-2xl flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-[#C9773D]/10 border border-[#C9773D]/25 flex items-center justify-center">
+            <FolderKanban className="w-6 h-6 text-[#C9773D]" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Project Portofolio</p>
-            <p className="text-2xl font-bold text-white">{projects.length}</p>
+            <p className="text-xs text-[#B99A7C] uppercase tracking-wider font-medium">
+              Project Portofolio
+            </p>
+            <p className="text-2xl font-bold text-[#F3E4D2]">{projects.length}</p>
           </div>
         </div>
-        <div className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-            <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+        <div className="p-5 glass-card rounded-2xl flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-[#8FBF8A]/10 border border-[#8FBF8A]/25 flex items-center justify-center">
+            <CheckCircle2 className="w-6 h-6 text-[#8FBF8A]" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">Status Server</p>
-            <p className="text-sm font-bold text-emerald-400">Online & WA Connected</p>
+            <p className="text-xs text-[#B99A7C] uppercase tracking-wider font-medium">
+              Status Server
+            </p>
+            <p className="text-sm font-bold text-[#8FBF8A]">Online & WA Connected</p>
           </div>
         </div>
       </div>
 
       {/* NAVIGATION TABS */}
-      <div className="flex gap-2 border-b border-slate-800 pb-3">
+      <div className="flex gap-2 border-b border-[#E8B368]/10 pb-3">
         <button
           onClick={() => setActiveTab("messages")}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all ${
             activeTab === "messages"
-              ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md shadow-purple-500/20"
-              : "text-slate-400 hover:text-white hover:bg-slate-900"
+              ? "liquid-btn-primary !py-2.5"
+              : "text-[#B99A7C] hover:text-[#F3E4D2] hover:bg-[#E8B368]/10"
           }`}
         >
           <Inbox className="w-4 h-4" /> Pesan Anonim ({messages.length})
@@ -246,8 +255,8 @@ export default function AdminDashboard() {
           onClick={() => setActiveTab("projects")}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm transition-all ${
             activeTab === "projects"
-              ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md shadow-purple-500/20"
-              : "text-slate-400 hover:text-white hover:bg-slate-900"
+              ? "liquid-btn-primary !py-2.5"
+              : "text-[#B99A7C] hover:text-[#F3E4D2] hover:bg-[#E8B368]/10"
           }`}
         >
           <FolderKanban className="w-4 h-4" /> Kelola Portofolio ({projects.length})
@@ -258,35 +267,34 @@ export default function AdminDashboard() {
       {activeTab === "messages" && (
         <div className="space-y-4">
           {messages.length === 0 ? (
-            <div className="text-center py-16 bg-slate-900/30 border border-dashed border-slate-800 rounded-3xl space-y-2">
-              <Inbox className="w-10 h-10 text-slate-600 mx-auto" />
-              <p className="text-slate-400 font-medium">Kotak pesan anonim masih kosong.</p>
+            <div className="text-center py-16 rounded-3xl border border-dashed border-[#E8B368]/20 bg-[#2B1B10]/30 space-y-2">
+              <Inbox className="w-10 h-10 text-[#8A6F55] mx-auto" />
+              <p className="text-[#B99A7C] font-medium">Kotak pesan anonim masih kosong.</p>
             </div>
           ) : (
             messages.map((msg) => (
               <div
                 key={msg.id}
-                className="group p-6 bg-slate-900/60 border border-slate-800 hover:border-purple-500/30 rounded-2xl transition-all duration-200 flex flex-col sm:flex-row items-start justify-between gap-4"
+                className="group p-6 glass-card hover:border-[#E8B368]/30 rounded-2xl transition-all duration-200 flex flex-col sm:flex-row items-start justify-between gap-4"
               >
                 <div className="space-y-2 w-full">
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-mono font-medium px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center gap-1">
+                    <span className="text-[11px] font-mono-retro font-medium px-2.5 py-1 rounded-full bg-[#E8B368]/10 text-[#E8B368] border border-[#E8B368]/20 flex items-center gap-1">
                       <Clock className="w-3 h-3" />
                       {new Date(msg.created_at).toLocaleString("id-ID")}
                     </span>
                   </div>
-                  <p className="text-slate-200 text-base leading-relaxed bg-slate-950/40 p-4 rounded-xl border border-slate-800/60">
-                    "{msg.content}"
+                  <p className="text-[#F3E4D2] text-base leading-relaxed bg-[#1B120B]/50 p-4 rounded-xl border border-[#E8B368]/10">
+                    &ldquo;{msg.content}&rdquo;
                   </p>
                 </div>
-                <Button
+                <button
                   onClick={() => handleDeleteMessage(msg.id)}
-                  size="icon"
-                  variant="ghost"
-                  className="text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl shrink-0"
+                  aria-label="Hapus pesan"
+                  className="text-[#B99A7C] hover:text-[#D9776B] hover:bg-[#D9776B]/10 rounded-xl shrink-0 p-2.5 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
-                </Button>
+                </button>
               </div>
             ))
           )}
@@ -298,79 +306,77 @@ export default function AdminDashboard() {
         <div className="space-y-8">
           <form
             onSubmit={handleAddProject}
-            className="p-6 bg-slate-900/60 border border-slate-800 rounded-3xl space-y-4 shadow-xl"
+            className="p-6 glass-card rounded-3xl space-y-4 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.5)]"
           >
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Plus className="w-5 h-5 text-purple-400" /> Tambah Project Baru
+            <h3 className="text-lg font-bold text-[#F3E4D2] flex items-center gap-2 font-display">
+              <Plus className="w-5 h-5 text-[#E8B368]" /> Tambah Project Baru
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input
+              <input
                 placeholder="Judul Project"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="bg-slate-950/80 border-slate-800 text-white rounded-xl"
+                className="bg-[#1B120B]/60 border border-[#E8B368]/15 text-[#F3E4D2] placeholder:text-[#8A6F55] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8B368]/50 focus:border-[#E8B368]/40 transition-all"
               />
-              <Input
+              <input
                 placeholder="Tags (pisahkan koma: Next.js, Tailwind)"
                 value={tags}
                 onChange={(e) => setTags(e.target.value)}
-                className="bg-slate-950/80 border-slate-800 text-white rounded-xl"
+                className="bg-[#1B120B]/60 border border-[#E8B368]/15 text-[#F3E4D2] placeholder:text-[#8A6F55] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8B368]/50 focus:border-[#E8B368]/40 transition-all"
               />
-              <Input
+              <input
                 placeholder="URL Gambar Thumbnail"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                className="bg-slate-950/80 border-slate-800 text-white rounded-xl"
+                className="bg-[#1B120B]/60 border border-[#E8B368]/15 text-[#F3E4D2] placeholder:text-[#8A6F55] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8B368]/50 focus:border-[#E8B368]/40 transition-all"
               />
-              <Input
+              <input
                 placeholder="URL Live Demo (opsional)"
                 value={projectUrl}
                 onChange={(e) => setProjectUrl(e.target.value)}
-                className="bg-slate-950/80 border-slate-800 text-white rounded-xl"
+                className="bg-[#1B120B]/60 border border-[#E8B368]/15 text-[#F3E4D2] placeholder:text-[#8A6F55] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8B368]/50 focus:border-[#E8B368]/40 transition-all"
               />
-              <Input
+              <input
                 placeholder="URL Github Repo (opsional)"
                 value={githubUrl}
                 onChange={(e) => setGithubUrl(e.target.value)}
-                className="bg-slate-950/80 border-slate-800 text-white rounded-xl sm:col-span-2"
+                className="bg-[#1B120B]/60 border border-[#E8B368]/15 text-[#F3E4D2] placeholder:text-[#8A6F55] rounded-xl px-4 py-2.5 text-sm sm:col-span-2 focus:outline-none focus:ring-2 focus:ring-[#E8B368]/50 focus:border-[#E8B368]/40 transition-all"
               />
             </div>
-            <Textarea
+            <textarea
               placeholder="Deskripsi Singkat Project"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
               required
-              className="bg-slate-950/80 border-slate-800 text-white rounded-xl min-h-[90px]"
+              className="w-full min-h-[90px] resize-none bg-[#1B120B]/60 border border-[#E8B368]/15 text-[#F3E4D2] placeholder:text-[#8A6F55] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8B368]/50 focus:border-[#E8B368]/40 transition-all"
             />
-            <Button
-              type="submit"
-              className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold py-2.5 px-6 rounded-xl shadow-md shadow-purple-500/20"
-            >
+            <button type="submit" className="liquid-btn-primary">
               Simpan Project
-            </Button>
+            </button>
           </form>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-white">Daftar Project Terpasang</h3>
+            <h3 className="text-lg font-bold text-[#F3E4D2] font-display">
+              Daftar Project Terpasang
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {projects.map((proj) => (
                 <div
                   key={proj.id}
-                  className="p-5 bg-slate-900/60 border border-slate-800 rounded-2xl flex items-start justify-between gap-4"
+                  className="p-5 glass-card rounded-2xl flex items-start justify-between gap-4"
                 >
                   <div className="space-y-1">
-                    <h4 className="font-bold text-white">{proj.title}</h4>
-                    <p className="text-xs text-slate-400 line-clamp-2">{proj.description}</p>
+                    <h4 className="font-bold text-[#F3E4D2]">{proj.title}</h4>
+                    <p className="text-xs text-[#B99A7C] line-clamp-2">{proj.description}</p>
                   </div>
-                  <Button
+                  <button
                     onClick={() => handleDeleteProject(proj.id)}
-                    size="icon"
-                    variant="ghost"
-                    className="text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl shrink-0"
+                    aria-label="Hapus project"
+                    className="text-[#B99A7C] hover:text-[#D9776B] hover:bg-[#D9776B]/10 rounded-xl shrink-0 p-2.5 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
-                  </Button>
+                  </button>
                 </div>
               ))}
             </div>

@@ -2,9 +2,13 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { Send, CheckCircle2, Loader2, MessageCircleHeart, ShieldCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Send,
+  CheckCircle2,
+  Loader2,
+  MessageCircleHeart,
+  ShieldAlert,
+} from "lucide-react";
 
 const MAX_LENGTH = 500;
 
@@ -19,7 +23,6 @@ export default function AnonymousForm() {
 
     setLoading(true);
 
-    // 1. Kirim pesan ke database Supabase
     const { error } = await supabase
       .from("anonymous_messages")
       .insert([{ content: message }]);
@@ -33,7 +36,6 @@ export default function AnonymousForm() {
       const currentMsg = message;
       setMessage("");
 
-      // 2. TRIGGER NOTIFIKASI WHATSAPP KE API NEXT.JS
       fetch("/api/send-wa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -48,72 +50,71 @@ export default function AnonymousForm() {
   };
 
   return (
-    <div className="relative w-full max-w-md mx-auto">
-      {/* Glow dekoratif */}
-      <div className="absolute -inset-4 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-[2rem] blur-2xl pointer-events-none" />
-
-      <div className="relative bg-slate-900/60 backdrop-blur-xl rounded-2xl border border-slate-800 shadow-xl shadow-purple-500/5 p-6">
-        <div className="flex items-center gap-3 mb-1">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-md shadow-purple-500/30 shrink-0">
-            <MessageCircleHeart className="w-5 h-5 text-white" />
+    <div className="relative w-full max-w-2xl mx-auto perspective-[1000px]">
+      <div className="relative liquid-glass rounded-3xl p-8 sm:p-10 shadow-[0_30px_60px_rgba(0,0,0,0.7)] transform transition-transform duration-500 hover:rotate-x-2">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-8 border-b border-[#d99153]/20 pb-6">
+          <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#d99153] to-[#8b4513] shadow-[0_5px_15px_rgba(217,145,83,0.4)] shrink-0 animate-pulse">
+            <MessageCircleHeart className="w-7 h-7 text-[#0a0503]" />
           </div>
           <div>
-            <p className="text-[11px] font-semibold tracking-widest text-purple-400 uppercase">
-              Ruang Aman
-            </p>
-            <h3 className="text-lg font-bold text-white leading-tight">
-              Kirim Pesan Anonim
+            <h3 className="text-2xl font-black text-[#fbe6d4] tracking-wide">
+              Direct Secure Message
             </h3>
+            <p className="text-sm text-[#a3836b] mt-1">
+              Kirim keluh kesah, *feedback*, atau ngajak collab tanpa ninggalin jejak IP atau Identitas.
+            </p>
           </div>
         </div>
 
-        <p className="text-sm text-slate-400 mb-4 mt-2">
-          Kritik, saran, atau sekadar curhat? Tulis di sini tanpa takut ketahuan identitas lu.
-        </p>
-
         {sent ? (
-          <div className="flex flex-col items-center text-center gap-2 p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl animate-in fade-in zoom-in-95 duration-300">
-            <div className="w-12 h-12 rounded-full bg-emerald-500/15 flex items-center justify-center">
-              <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+          <div className="flex flex-col items-center justify-center gap-3 p-10 rounded-2xl bg-[#d99153]/10 border border-[#d99153]/40 animate-in fade-in zoom-in-95 duration-500">
+            <div className="w-16 h-16 rounded-full bg-[#d99153]/20 flex items-center justify-center mb-2">
+              <CheckCircle2 className="w-8 h-8 text-[#d99153]" />
             </div>
-            <p className="text-sm font-semibold text-emerald-400">
-              Pesan lu udah terkirim secara anonim!
+            <p className="text-xl font-bold text-[#fbe6d4]">
+              Data Terenkripsi & Terkirim
             </p>
-            <p className="text-xs text-emerald-400/70">
-              Makasih udah percaya buat cerita di sini.
+            <p className="text-sm text-[#a3836b]">
+              Pesan lu udah meluncur ke WhatsApp gua!
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-2">
-            <Textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Tulis pesan rahasia lu di sini..."
-              maxLength={MAX_LENGTH}
-              className="bg-slate-950/50 border-slate-800 text-slate-100 placeholder:text-slate-500 min-h-[100px] focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none rounded-xl"
-              required
-            />
-            <div className="flex items-center justify-between px-0.5">
-              <span className="flex items-center gap-1 text-[11px] text-slate-500">
-                <ShieldCheck className="w-3.5 h-3.5 text-purple-400" />
-                Identitas lu nggak disimpan
-              </span>
-              <span className="text-[11px] text-slate-500">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="relative group">
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Ketik rahasia atau pesan lu di sini..."
+                maxLength={MAX_LENGTH}
+                required
+                className="w-full min-h-[160px] resize-none rounded-2xl px-6 py-5 text-base text-[#fbe6d4] placeholder:text-[#a3836b] bg-[#0a0503]/50 backdrop-blur-md border border-[#d99153]/20 focus:outline-none focus:ring-4 focus:ring-[#d99153]/20 focus:border-[#d99153]/70 transition-all duration-300 shadow-inner"
+              />
+              <div className="absolute bottom-4 right-4 text-xs font-mono text-[#d99153] bg-[#0a0503]/80 px-2 py-1 rounded-md">
                 {message.length}/{MAX_LENGTH}
-              </span>
+              </div>
             </div>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="group w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-2 rounded-xl transition-all shadow-md shadow-purple-500/30 hover:shadow-lg hover:shadow-purple-500/40 active:scale-[0.98]"
-            >
-              {loading ? (
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-              ) : (
-                <Send className="w-4 h-4 mr-2 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              )}
-              Kirim Anonim
-            </Button>
+
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <span className="flex items-center gap-2 text-xs text-[#a3836b]">
+                <ShieldAlert className="w-4 h-4 text-[#d99153]" />
+                *Fully Anonymous & End-to-End Handled*
+              </span>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full sm:w-auto relative overflow-hidden liquid-glass px-8 py-4 rounded-xl text-[#fbe6d4] font-bold tracking-widest uppercase hover:bg-[#d99153]/20 transition-all duration-300 group flex items-center justify-center gap-3"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1s_infinite]" />
+                {loading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <>
+                    <span>Send Protocol</span>
+                    <Send className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </>
+                )}
+              </button>
+            </div>
           </form>
         )}
       </div>

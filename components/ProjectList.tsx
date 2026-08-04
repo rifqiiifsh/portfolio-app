@@ -36,17 +36,14 @@ export default function ProjectList() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div
-            key={i}
-            className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden animate-pulse"
-          >
-            <div className="w-full h-48 bg-slate-800" />
-            <div className="p-5 space-y-3">
-              <div className="h-5 bg-slate-800 rounded w-3/4" />
-              <div className="h-3 bg-slate-800 rounded w-full" />
-              <div className="h-3 bg-slate-800 rounded w-5/6" />
+          <div key={i} className="rounded-3xl overflow-hidden liquid-glass animate-pulse border border-[#d99153]/20">
+            <div className="w-full h-56 bg-[#2d160b]/40" />
+            <div className="p-6 space-y-4">
+              <div className="h-6 bg-[#2d160b]/60 rounded-lg w-2/3" />
+              <div className="h-4 bg-[#2d160b]/60 rounded-lg w-full" />
+              <div className="h-4 bg-[#2d160b]/60 rounded-lg w-4/5" />
             </div>
           </div>
         ))}
@@ -56,52 +53,52 @@ export default function ProjectList() {
 
   if (projects.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-3 text-center py-14 px-6 bg-slate-900/40 rounded-2xl border-2 border-dashed border-slate-800">
-        <div className="w-14 h-14 rounded-full bg-purple-500/10 flex items-center justify-center">
-          <FolderOpen className="w-7 h-7 text-purple-400" />
+      <div className="liquid-glass flex flex-col items-center gap-4 text-center py-20 px-8 rounded-3xl border-2 border-dashed border-[#d99153]/30">
+        <div className="w-20 h-20 rounded-full bg-[#d99153]/10 flex items-center justify-center animate-pulse">
+          <FolderOpen className="w-10 h-10 text-[#d99153]" />
         </div>
-        <p className="font-semibold text-white">Belum ada project</p>
-        <p className="text-sm text-slate-400 max-w-xs">
-          Belum ada project yang ditambahkan. Nanti bisa disi lewat Dashboard Admin!
+        <p className="text-2xl font-bold text-[#fbe6d4]">Database Kosong</p>
+        <p className="text-base text-[#a3836b] max-w-md">
+          Belum ada portofolio yang di-upload. Tunggu update karya terbaik selanjutnya via Dashboard Admin.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {projects.map((item) => (
         <div
           key={item.id}
-          className="group bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden hover:border-purple-500/40 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300"
+          className="group liquid-glass rounded-3xl overflow-hidden hover:-translate-y-3 hover:shadow-[0_30px_60px_rgba(217,145,83,0.2)] transition-all duration-500 perspective-[1000px]"
         >
           {item.image_url && (
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden h-60">
+              {/* Overlay Gradient Brown */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0a0503] opacity-60 z-10" />
               <img
                 src={item.image_url}
                 alt={item.title}
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 group-hover:rotate-2 transition-transform duration-700"
               />
 
-              {/* Chip tag pertama di pojok gambar */}
               {item.tags?.[0] && (
-                <span className="absolute top-3 left-3 text-[10px] font-semibold uppercase tracking-wide px-2 py-1 rounded-md bg-slate-950/70 backdrop-blur-sm border border-slate-700 text-slate-200">
+                <span className="absolute top-4 left-4 z-20 text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-xl bg-[#0a0503]/80 backdrop-blur-md border border-[#d99153]/50 text-[#d99153] shadow-lg">
                   {item.tags[0]}
                 </span>
               )}
 
-              {/* Overlay hover untuk desktop: quick-action buttons */}
+              {/* Tombol Aksi Liquid Glass Hover */}
               {(item.project_url || item.github_url) && (
-                <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-3 transition-all duration-300">
+                <div className="absolute inset-0 z-30 bg-[#0a0503]/20 group-hover:bg-[#0a0503]/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-4 transition-all duration-500 backdrop-blur-sm">
                   {item.project_url && (
                     <a
                       href={item.project_url}
                       target="_blank"
                       rel="noreferrer"
-                      aria-label="Live Demo"
-                      className="w-10 h-10 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 hover:border-transparent transition-all"
+                      className="w-14 h-14 rounded-2xl liquid-glass flex items-center justify-center text-[#fbe6d4] hover:text-[#0a0503] hover:bg-[#d99153] hover:scale-110 transition-all duration-300"
                     >
-                      <ExternalLink className="w-4 h-4" />
+                      <ExternalLink className="w-6 h-6" />
                     </a>
                   )}
                   {item.github_url && (
@@ -109,10 +106,9 @@ export default function ProjectList() {
                       href={item.github_url}
                       target="_blank"
                       rel="noreferrer"
-                      aria-label="Source Code"
-                      className="w-10 h-10 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 hover:border-transparent transition-all"
+                      className="w-14 h-14 rounded-2xl liquid-glass flex items-center justify-center text-[#fbe6d4] hover:text-[#0a0503] hover:bg-[#d99153] hover:scale-110 transition-all duration-300"
                     >
-                      <Code2 className="w-4 h-4" />
+                      <Code2 className="w-6 h-6" />
                     </a>
                   )}
                 </div>
@@ -120,35 +116,33 @@ export default function ProjectList() {
             </div>
           )}
 
-          <div className="p-5 space-y-2">
-            <h3 className="text-lg font-bold text-white tracking-tight">{item.title}</h3>
-            {item.tags?.[1] && (
-              <p className="text-xs font-medium text-purple-400">{item.tags[1]}</p>
-            )}
-            <p className="text-sm text-slate-400 leading-relaxed line-clamp-2">
+          <div className="p-8 space-y-4">
+            <h3 className="text-2xl font-bold text-[#fbe6d4] group-hover:text-[#d99153] transition-colors">
+              {item.title}
+            </h3>
+            
+            <div className="flex flex-wrap gap-2">
+              {item.tags?.slice(1).map((tag, idx) => (
+                <span key={idx} className="text-xs font-semibold px-2 py-1 bg-[#d99153]/10 text-[#d99153] rounded-lg border border-[#d99153]/20">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <p className="text-base text-[#a3836b] leading-relaxed line-clamp-3">
               {item.description}
             </p>
 
-            {/* Tautan cadangan untuk HP (overlay hover nggak kepakai di touchscreen) */}
-            <div className="flex items-center gap-4 pt-2 text-xs sm:hidden">
+            {/* Mobile Actions */}
+            <div className="flex items-center gap-6 pt-4 text-sm md:hidden">
               {item.project_url && (
-                <a
-                  href={item.project_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1 text-purple-400 font-medium"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" /> Live Demo
+                <a href={item.project_url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[#d99153] font-bold">
+                  <ExternalLink className="w-4 h-4" /> Preview Web
                 </a>
               )}
               {item.github_url && (
-                <a
-                  href={item.github_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1 text-slate-400 font-medium"
-                >
-                  <Code2 className="w-3.5 h-3.5" /> Source
+                <a href={item.github_url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[#a3836b] hover:text-[#fbe6d4] font-bold">
+                  <Code2 className="w-4 h-4" /> Source Code
                 </a>
               )}
             </div>
